@@ -13,3 +13,10 @@
 main.container {
   margin-bottom: 4em;
 }
+
+.ng-dirty.ng-valid{
+  border-color: hsl(120,40%,50%);
+}
+.ng-dirty.ng-invalid{
+  border-color: hsl(0,40%,50%);
+}
