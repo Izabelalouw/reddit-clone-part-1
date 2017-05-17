@@ -1,7 +1,7 @@
 (function(){
-  angular.module('app', [])
+  angular.module('app', ['angularMoment'])
   .component ('reddit',{
-    controller: function(){
+    controller: function(moment){
       const vm = this
       vm.tab = 1
       vm.setTab = function(selected){
@@ -50,12 +50,19 @@
       vm.posts = posts
       vm.addPost= function (){
         vm.post.createdOn = Date.now()
+        vm.post.votes = 0
+        vm.post.comments = []
         posts.push(vm.post)
         console.log(posts);
         delete vm.post
       }
-
-
+      vm.upVote = function(post){
+        post.votes++
+      }
+      vm.downVote = function(post){
+        if (post.votes >= 1)
+        post.votes--
+      }
     },
     template: `
     <nav class="navbar navbar-default">
@@ -87,13 +94,18 @@
 
       <ul class="nav nav-pills">
         <li role="presentation" class="active">
-          <input type="search" class="form-control input-sm search-form" placeholder="Filter">
+          <input type="search" ng-model ="filterBox"class="form-control input-sm search-form" placeholder="Filter">
         </li>
         <div class="form-inline">
           <label for="sort">  Sort by </label>
-          <select class="form-control" id="sort">
-            <option>Some text</option>
-            <option>Some text</option>
+          <select ng-model="sortData" ng-init="sortData = '-votes'"class="form-control" id="sort">
+            <option value= "-title">Title Desc</option>
+            <option value= "title">Title Asc</option>
+            <option value= "-createdOn">Date Desc</option>
+            <option value= "createdOn">Date Asc</option>
+            <option value= "-votes">Votes Desc</option>
+            <option value= "votes">Votes Asc</option>
+
           </select>
         </div>
       </ul>
@@ -131,7 +143,7 @@
       <div ng-show= "$ctrl.isSet(1)" class="row">
         <div class="col-md-12">
 
-          <div ng-repeat = "post in $ctrl.posts track by $index" class="well">
+          <div ng-repeat = "post in $ctrl.posts | orderBy: sortData | filter: { title: filterBox}" class="well">
             <div class="media-left">
               <img ng-src = "{{post.image}}" class="media-object">
             </div>
@@ -139,8 +151,8 @@
               <h4 class="media-heading">
                  {{post.title}}
                 |
-                <a><i class="glyphicon glyphicon-arrow-up"></i></a>
-                <a><i class="glyphicon glyphicon-arrow-down"></i></a>
+                <a ng-click="$ctrl.upVote(post)"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                <a ng-click="$ctrl.downVote(post)"><i class="glyphicon glyphicon-arrow-down"></i></a>
                 {{post.votes}}
               </h4>
               <div class="text-right">
@@ -150,7 +162,7 @@
                 {{post.body}}
               </p>
               <div>
-                {{post.createdOn | date}}
+                <div am-time-ago = "post.createdOn"></div>
                 |
                 <i class="glyphicon glyphicon-comment"></i>
                 <a>
