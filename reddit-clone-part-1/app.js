@@ -56,6 +56,18 @@
         console.log(posts);
         delete vm.post
       }
+      vm.commentCheck =1
+      vm.setShowComments= function(selected){
+        vm.commentCheck = selected
+      }
+       vm.commentsOn  = function(on){
+        return vm.commentCheck === on
+       }
+      vm.addComment = function(post){
+        var commentSection = post.comments
+        commentSection.push(vm.newComment)
+        delete vm.newComment
+      }
       vm.upVote = function(post){
         post.votes++
       }
@@ -165,19 +177,27 @@
                 <div am-time-ago = "post.createdOn"></div>
                 |
                 <i class="glyphicon glyphicon-comment"></i>
-                <a>
+                <a ng-click = "$ctrl.setShowComments($index)" ng-hide ="$ctrl.commentsOn($index)">
                   <ng-pluralize count = "post.comments.length" when="{'0': 'no comments', '1': '1 comment', 'other':'{} comments'}"></ng-pluralize>
                 </a>
+                <a ng-click = "$ctrl.setShowComments(-1)"  ng-show ="$ctrl.commentsOn($index)">
+                  <ng-pluralize count = "post.comments.length" when="{'1': 'hide comment', 'other':'hide comments'}"></ng-pluralize>
+                </a>
+                <div ng-show ="$ctrl.commentsOn($index)" class ="comment">
+                  <ul ng-repeat ="comment in post.comments">
+                    <li>{{comment.text}}</li>
+                  </ul>
+                </div>
               </div>
-              <div class="row">
+              <div ng-show ="$ctrl.commentsOn($index)" class="row">
                 <div class="col-md-offset-1">
                   <hr>
                   <p>
-                    Comment text
+                    Add Comment:
                   </p>
-                  <form class="form-inline">
+                  <form ng-submit="$ctrl.addComment(post)" class="form-inline">
                     <div class="form-group">
-                      <input class="form-control">
+                      <input ng-model="$ctrl.newComment.text" class="form-control">
                     </div>
                     <div class="form-group">
                       <input type="submit" class="btn btn-primary">
