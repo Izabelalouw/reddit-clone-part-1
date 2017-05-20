@@ -20,3 +20,12 @@ main.container {
 .ng-dirty.ng-invalid{
   border-color: hsl(0,40%,50%);
 }
+.some-element.ng-enter {
+  transition: height 1s;
+  height: 0px;
+  overflow: hidden;
+}
+
+.some-element.ng-enter-active {
+  height: 100px;
+}

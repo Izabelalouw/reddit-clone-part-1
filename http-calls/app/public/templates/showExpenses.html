@@ -1,0 +1,58 @@
+
+
+
+
+<h1>Expenses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Category</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat= "expense in $ctrl.expenses | orderBy: 'id'">
+      <td>{{expense.id}}</td>
+      <td>{{expense.category}}</td>
+      <td>{{expense.amount}}</td>
+      <td>
+        <a href="#" ng-click="$ctrl.editExpense(expense.id)">edit</a>
+        <a href="#" ng-click="$ctrl.deleteExpense(expense.id)">delete</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<a href ng-click="$ctrl.setShow(2)" ng-show="$ctrl.isSet(1)">Add New Expense</a>
+<a href ng-click="$ctrl.setShow(1)" ng-show="$ctrl.isSet(2)">Close Form</a>
+
+
+<form ng-submit="$ctrl.addExpense()" ng-show="$ctrl.isSet(2)">
+  <p>
+    Category: <input  ng-model="$ctrl.newExpense.category" id="new-category">
+  </p>
+  <p>
+    Amount: <input ng-model="$ctrl.newExpense.amount" id="new-amount">
+  </p>
+  <p>
+    <button ng-click="$ctrl.setShow(1)" type="submit">Add Expense</button>
+  </p>
+</form>
+
+
+
+
+
+<form ng-show="$ctrl.isSet(3)" ng-submit="$ctrl.updateExpense()">
+  <p>
+    New Category: <input ng-model="$ctrl.editedExpense.category" id="edit-category">
+  </p>
+  <p>
+    New Amount: <input ng-model="$ctrl.editedExpense.amount" id="edit-amount">
+  </p>
+  <p>
+    <button type="submit" ng-click="$ctrl.setShow(1)">Update Expense</button>
+  </p>
+</form>
