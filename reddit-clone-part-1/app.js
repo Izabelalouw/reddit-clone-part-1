@@ -136,11 +136,11 @@
             </div>
             <div>
               <label for="author">Author</label>
-              <input ng-model= "$ctrl.post.author"id="author" class="form-control" required>
+              <input ng-model= "$ctrl.post.author" id="author" class="form-control" required>
             </div>
             <div>
               <label for="image-url">Image URL</label>
-              <input ng-model= "$ctrl.post.image" id="image-url" class="form-control" required>
+              <input ng-enter-active ng-model= "$ctrl.post.image" id="image-url" class="form-control" required>
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-primary" ng-click = "$ctrl.setTab(1)">

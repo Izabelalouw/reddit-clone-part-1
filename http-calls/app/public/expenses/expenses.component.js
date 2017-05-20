@@ -3,11 +3,10 @@
 
   angular.module('app')
     .component('expenses', {
-      controller: controller,
-      template: ``
+      controller: "ShowExpensesController",
+      templateUrl: "/templates/showExpenses.html"
     })
 
-  function controller() {
-  }
+
 
 }());
