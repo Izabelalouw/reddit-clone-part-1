@@ -3,7 +3,8 @@
 
   angular.module('app')
     .service('houseService', function () {
-      this.houses = [
+      const vm = this;
+      $state.houses = [
         {id: 1, name: 'Spacious two bedroom', address: '10 Main St'},
       ]
 
