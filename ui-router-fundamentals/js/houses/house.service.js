@@ -1,7 +1,7 @@
 (function() {
   'use strict'
 
-  angular.module('app')
+  angular.module('app',['ui.router'])
     .service('houseService', function () {
       this.houses = [
         {id: 1, name: 'Spacious two bedroom', address: '10 Main St'},
