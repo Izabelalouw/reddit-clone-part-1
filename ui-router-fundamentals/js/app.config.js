@@ -3,10 +3,29 @@
 
   angular.module('app').config(config)
 
-  // TODO: figure out how to configure the app correctly
+  config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider']
 
-  function config() {
-    
+  function config($stateProvider, $urlRouterProvider, $locationProvider){
+
+
+  $locationProvider.html5Mode(true)
+
+    $stateProvider
+      .state({
+        name: 'home',
+        url: '/',
+        component: 'houseList'
+      })
+      .state({
+        name:"newHome",
+        url:'/houses/new',
+        component: 'houseNew'
+      })
+      .state({
+        name:"singleHome",
+        url:'/houses/:id',
+        component: 'houseShow'
+      })
   }
 
 }());
